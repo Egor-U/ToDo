@@ -1,4 +1,14 @@
-document.querySelector('#task').addEventListener('keypress', function(element) {if (element.key == 'Enter') {element.preventDefault(); newTask()}});
+const input = document.querySelector('#task');
+input.addEventListener('keypress', (event) => {
+    if (event.key == 'Enter') {
+        event.preventDefault();
+        const task = input.value.trim();
+        if (task != '') {
+            renderTask(task);
+            input.value = '';
+        }
+    }
+})
 
 function done(label) {
     if (label.innerHTML.includes('<s>')) {
@@ -8,22 +18,17 @@ function done(label) {
     }
 }
 
-function newTask() {
-    const task = document.querySelector('#task');
-    if (task.value == '') {
-        return;
-    }
-    const ul = document.querySelector('#tasks');
-    const input = document.createElement('input');
-    input.type = 'checkbox';
-    input.onchange = function() {done(label)};
-    const label = document.createElement('label');
-    label.textContent = task.value.trim();
-    task.value = '';
+function renderTask(task) {
     const li = document.createElement('li');
+    const ul = document.querySelector('#tasks');
+    const label = document.createElement('label');
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
     li.className = 'list-group-item';
-    input.style.marginRight = '10px';
-    li.appendChild(input);
+    checkbox.style.marginRight = '10px';
+    label.textContent = task;
+    checkbox.onchange = function() {done(label)};
+    li.appendChild(checkbox);
     li.appendChild(label);
     ul.appendChild(li);
 }
