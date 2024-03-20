@@ -1,3 +1,4 @@
+import { Todos } from './class/Todos.js';
 
 const input = document.querySelector('#task');
 input.addEventListener('keypress', (event) => {
@@ -5,9 +6,10 @@ input.addEventListener('keypress', (event) => {
         event.preventDefault();
         const task = input.value.trim();
         if (task != '') {
-            saveTask(task).then((json) => {
+            todos.addTask(task).then((task) => {
                 renderTask(task);
                 input.value = '';
+                input.focus();
             })
         }
     }
@@ -29,7 +31,7 @@ function renderTask(task) {
     checkbox.type = 'checkbox';
     li.className = 'list-group-item';
     checkbox.style.marginRight = '10px';
-    label.textContent = task;
+    label.textContent = task.getText();
     checkbox.onchange = function() {done(label)};
     li.appendChild(checkbox);
     li.appendChild(label);
@@ -37,22 +39,21 @@ function renderTask(task) {
 }
 
 const BACKEND_ROOT_URL = 'http://localhost:3001';
+const todos = new Todos(BACKEND_ROOT_URL);
 
 const list = document.querySelector('#tasks');
 
 input.disabled = true;
 
 const getTasks = async() => {
-    try {
-        const response = await fetch(BACKEND_ROOT_URL);
-        const json = await response.json();
-        json.forEach(task => {
-            renderTask(task.description);
+    todos.getTasks().then((tasks) => {
+        tasks.forEach(task => {
+            renderTask(task);
         });
         input.disabled = false;
-    } catch (error) {
-        alert(error.message);
-    }
+    }).catch((error) => {
+        alert(error);
+    })
 }
 
 const saveTask = async(task) => {
