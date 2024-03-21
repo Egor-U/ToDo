@@ -15,6 +15,7 @@ input.addEventListener('keypress', (event) => {
     }
 })
 
+/*
 function done(label) {
     if (label.innerHTML.includes('<s>')) {
         label.innerHTML = label.textContent;
@@ -23,7 +24,6 @@ function done(label) {
     }
 }
 
-/*
 function renderTask(task) {
     const li = document.createElement('li');
     const ul = document.querySelector('#tasks');

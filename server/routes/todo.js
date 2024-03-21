@@ -1,19 +1,9 @@
-require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-//const { Pool } = require('pg');
-const { todoRouter } = require('./routes/todo.js');
+const { query } = require('../helpers/db.js');
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use('/', todoRouter);
+const todoRouter = express.Router();
 
-const port = process.env.PORT;
-
-/*
-app.get("/",async (req,res) => {
+todoRouter.get("/",async (req,res) => {
     console.log(query);
     try {
         const result = await query('select * from task');
@@ -26,7 +16,7 @@ app.get("/",async (req,res) => {
     }
 });
 
-app.post('/new',async (req,res) => {
+todoRouter.post('/new',async (req,res) => {
     try {
         const result = await query('insert into task (description) values ($1) returning *',
         [req.body.description])
@@ -37,7 +27,7 @@ app.post('/new',async (req,res) => {
     }
 })
 
-app.delete('/delete/:id', async(req,res) => {
+todoRouter.delete('/delete/:id', async(req,res) => {
     const id = Number(req.params.id);
     try {
         const result = await query('delete from task where id = $1',
@@ -50,17 +40,6 @@ app.delete('/delete/:id', async(req,res) => {
     }
 })
 
-
-const openDb = () => {
-    const pool = new Pool ({
-        user: process.env.DB_USER,
-        host: process.env.DB_HOST,
-        database: process.env.DB_NAME,
-        password: DB_PASSWORD,
-        port: process.env.DB_PASSWORD
-    });
-    return pool;
+module.exports = {
+    todoRouter
 }
-*/
-
-app.listen(port);
