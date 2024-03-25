@@ -40,7 +40,10 @@ function renderTask(task) {
 }
 */
 
-const BACKEND_ROOT_URL = 'http://localhost:3001';
+// const BACKEND_ROOT_URL = 'http://localhost:3001';
+const BACKEND_ROOT_URL = 'https://todo-backend-v0xo.onrender.com';
+
+
 const todos = new Todos(BACKEND_ROOT_URL);
 
 const list = document.querySelector('#tasks');
