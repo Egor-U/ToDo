@@ -95,7 +95,7 @@ const getTasks = async() => {
 const saveTask = async(task) => {
     try {
         const json = JSON.stringify({description: task});
-        const response = await fetch(BACKEND_ROOT_URL + '/new', {
+        const response = await fetch(BACKEND_ROOT_URL + 'new', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
